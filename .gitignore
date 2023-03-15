@@ -2,4 +2,4 @@ _deprecated/
 db/
 node_modules/
 .env
-ssh
+ec2 ssh
