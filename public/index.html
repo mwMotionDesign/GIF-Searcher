@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://files.michael-weidenfeld.de/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <title>Easy GIF Searcher</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+</head>
+
+<body>
+    <div id="siteContent">
+        <div id="inputContent">
+            <p class="header2">Search for GIFs:</p>
+            <label for="inputField"></label>
+            <input type="text" id="inputField" maxlength="50" placeholder="Type something">
+            <div id="buttonContainer">
+                <button class="optionButtons" id="buttonFetchInput">Fetch GIFs<br>Enter</button>
+                <div class="divider"></div>
+                <button class="optionButtons" id="buttonGenerateInput">Random Word<br>_</button>
+                <div class="divider"></div>
+                <button class="optionButtons" id="buttonAIGenerateInput">Ask GPT3<br>Shift Enter</button>
+            </div>
+        </div>
+        <div id="resultContainer">
+            <div id="resultHeader">
+                <p class="header2" id="pResult">Results:</p>
+            </div>
+            <div id="result"></div>
+        </div>
+        <div id="returnDiv"></div>
+</body>
+
+</html>

@@ -1,0 +1,5 @@
+_deprecated/
+db/
+node_modules/
+.env
+ssh

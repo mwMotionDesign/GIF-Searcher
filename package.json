@@ -1,0 +1,25 @@
+{
+  "name": "asyncawait",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "First node express server and server api fetching",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "api"
+  ],
+  "author": "Michael Weidenfeld",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "nedb": "^1.8.0",
+    "node-fetch": "^2.6.6",
+    "openai": "^3.2.1"
+  },
+  "devDependencies": {}
+}
