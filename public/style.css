@@ -3,9 +3,11 @@
     --debugColor: rgba(255, 255, 255, 0.0);
 
     --background-color: rgb(32, 32, 32);
+    --bright-color: rgb(255, 255, 255);
     --backgroundBrightener: rgb(255, 255, 255, 0.03);
     --backgroundResults: rgb(255, 255, 255, 0.05);
-    --highlightColor: rgb(217, 42, 252);
+    --highlightColor: rgb(236, 63, 252);
+    --buttonFontColor: rgb(255, 255, 255);
 }
 
 * {
@@ -144,7 +146,7 @@ input {
     padding: 0.5% 1%;
     margin: 20px 0px;
     border: none;
-    background-color: rgb(255, 255, 255);
+    background-color: var(--bright-color);
 }
 
 #buttonContainer {
@@ -159,7 +161,7 @@ input {
 }
 
 .divider {
-    width: 1%;
+    width: 3%;
     min-width: 10px;
     height: 100%;
 }
@@ -171,13 +173,14 @@ input {
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
-    color: #fff;
+    color: var(--buttonFontColor);
     background-color: var(--highlightColor);
+    transition: 0.2s;
 }
 
 .optionButtons:hover {
     cursor: pointer;
-    transform: scale(1.1);
+    transform: scale(1.05);
     border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
