@@ -87,6 +87,10 @@ document.addEventListener("keypress", (event) => {
             event.preventDefault();
             generateAIresponse();
         }
+        else if (event.key === "+") {
+            event.preventDefault();
+            getAImodels();
+        }
     }
     else if (event.key === "Enter") {
         event.preventDefault();
@@ -151,9 +155,9 @@ let responseJSON;
 let gifLinkData;
 
 // DEBUG
-inputField.value = "Welcome";
-searchForGif();
-inputField.value = "";
+// inputField.value = "Welcome";
+// searchForGif();
+// inputField.value = "";
 
 async function searchForGif() {
     newSiteLoad = true;
@@ -330,4 +334,25 @@ function addReturnText(text) {
     newText.innerHTML = text;
 
     returnDiv.appendChild(newText);
+}
+
+async function getAImodels() {
+    try {
+        const responseAI = await fetch("/getAImodels");
+        const jsonAI = await responseAI.json();
+        const aiObject = jsonAI.responseObject;
+
+        console.log("AI Models:");
+        let tempString = "";
+
+        for (let i = 0; i < aiObject.length; i++) {
+            tempString = tempString.concat("- ", aiObject[i].model, "\n");
+        }
+
+        console.log(tempString);
+        console.log("");
+    } catch (error) {
+        console.log("AI RESPONSE ERROR:");
+        console.error(error);
+    }
 }

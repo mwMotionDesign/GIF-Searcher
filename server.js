@@ -96,6 +96,13 @@ app.get("/getGIFrequest/:data", async (request, response) => {
 
 // Open AI Request
 
+const aiConfiguration = new Configuration({
+    organization: "org-g4dnutBbAzqx2x93GBqErvMy",
+    apiKey: process.env.OPEN_AI_KEY
+});
+
+const openAI = new OpenAIApi(aiConfiguration);
+
 app.post("/postAIrequest", async (request, response) => {
     const data = request.body;
     let newPrompt = "";
@@ -110,14 +117,6 @@ app.post("/postAIrequest", async (request, response) => {
     console.log(data.prompt);
     console.log("Changed to:");
     console.log(newPrompt);
-
-    const aiConfiguration = new Configuration({
-        organization: "org-g4dnutBbAzqx2x93GBqErvMy",
-        apiKey: process.env.OPEN_AI_KEY
-    });
-
-    const openAI = new OpenAIApi(aiConfiguration);
-    // const aiResponse = await openAI;
 
     const aiPrompt = {
         model: "text-davinci-003",
@@ -153,6 +152,37 @@ app.post("/postAIrequest", async (request, response) => {
         response.json({
             status: "200 - Succesful PostRequest",
             data: aiResponseAnswer.text
+        });
+
+        response.end();
+    } catch (error) {
+        console.log("AI RESPONSE ERROR:");
+        // console.error(error);
+        console.log(error);
+        response.end();
+    }
+});
+
+app.get("/getAImodels", async (request, response) => {
+    console.log("Getting AI Models: ");
+
+    try {
+
+        const promiseModels = await openAI.listModels();
+        const jsonModels = await promiseModels.data.data;
+        let responseObject = [];
+
+        for (let i = 0; i < jsonModels.length; i++) {
+            // console.log(jsonModels[i].id);
+            // console.log(jsonModels[i].permission);
+            responseObject[i] = {
+                model: jsonModels[i].id
+            };
+        }
+        console.log(responseObject);
+
+        response.json({
+            responseObject
         });
 
         response.end();
