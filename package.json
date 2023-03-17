@@ -5,7 +5,8 @@
   "description": "First node express server and server api fetching",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "loop": "nodemon server.js"
   },
   "keywords": [
     "express",

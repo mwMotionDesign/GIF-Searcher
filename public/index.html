@@ -14,24 +14,53 @@
 <body>
     <div id="siteContent">
         <div id="inputContent">
-            <p class="header2">Search for GIFs:</p>
-            <label for="inputField"></label>
-            <input type="text" id="inputField" maxlength="50" placeholder="Type something">
-            <div id="buttonContainer">
-                <button class="optionButtons" id="buttonFetchInput">Fetch GIFs<br>Enter</button>
-                <div class="divider"></div>
-                <button class="optionButtons" id="buttonGenerateInput">Random Word<br>_</button>
-                <div class="divider"></div>
-                <button class="optionButtons" id="buttonAIGenerateInput">Ask GPT3<br>Shift Enter</button>
+            <div class="flexContent" id="flexReturn">
+                <div id="returnDiv"></div>
+            </div>
+            <div class="flexContent" id="flexSearch">
+                <!-- <h2>Search for GIFs:</h2> -->
+                <h1>Search GIFs fast and get inspired</h1>
+                <label for="inputField"></label>
+                <input type="text" id="inputField" maxlength="50" placeholder="Type something">
+                <div id="buttonContainer">
+                    <button class="optionButtons" id="buttonFetchInput">SEARCH / NEXT</button>
+                    <div class="divider"></div>
+                    <button class="optionButtons" id="buttonGenerateInput">RANDOM WORD</button>
+                    <div class="divider"></div>
+                    <button class="optionButtons" id="buttonAIGenerateInput">ASK AI</button>
+                </div>
+            </div>
+            <div class="flexContent" id="flexLegende">
+                <div id="legende">
+                    <p>SHORTCUTS</p>
+                    <p><span class="hLegende">Enter</span>&nbsp;&nbsp;&nbsp;Search GIF / More Results</p>
+                    <p><span class="hLegende">_</span>&nbsp;&nbsp;&nbsp;Random Word</p>
+                    <p><span class="hLegende">Shift Enter</span>&nbsp;&nbsp;&nbsp;Get 2 Word Answer from AI (GPT3)</p>
+                    <p><span class="hLegende">:</span>&nbsp;&nbsp;&nbsp;Show / Hide Full GIFs</p>
+                    <p><span class="hLegende">;</span>&nbsp;&nbsp;&nbsp;Focus Searchbar</p>
+                </div>
+            </div>
+            <div class="flexContent" id="flexLogo">
+                <div id="logoContainer">
+                    <a href="https://giphy.com/" class="containLink" target="_blank">
+                        <img id="giphyIMG" src="./images/PoweredBy_Dark-Backgrounds.gif" alt="Powered by GIPHY">
+                    </a>
+                </div>
             </div>
         </div>
         <div id="resultContainer">
-            <div id="resultHeader">
-                <p class="header2" id="pResult">Results:</p>
-            </div>
+            <!-- <div id="resultHeader">
+                <h2 id="pResult">Results: </h2>
+            </div> -->
             <div id="result"></div>
         </div>
-        <div id="returnDiv"></div>
+        <div id="logoMobile">
+            <div id="logoContainer">
+                <a href="https://giphy.com/" class="containLink" target="_blank">
+                    <img id="giphyIMGmobile" src="./images/PoweredBy_Dark-Backgrounds.gif" alt="Powered by GIPHY">
+                </a>
+            </div>
+        </div>
 </body>
 
 </html>

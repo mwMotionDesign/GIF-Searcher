@@ -101,7 +101,7 @@ app.post("/postAIrequest", async (request, response) => {
     let newPrompt = "";
     if (data.prompt != "") {
         // newPrompt = "Summarize the following sentence in a maximum of two words: ".concat(data.prompt);
-        newPrompt = "Answer with a maximum of two words: ".concat(data.prompt);
+        newPrompt = "Answer with a maximum of two words. Dont use punctuation: ".concat(data.prompt);
     }
     else if (data.prompt == "") {
         newPrompt = "Generate an interesting word for a GIF search:";
@@ -122,7 +122,7 @@ app.post("/postAIrequest", async (request, response) => {
     const aiPrompt = {
         model: "text-davinci-003",
         prompt: newPrompt,
-        max_tokens: 15,
+        max_tokens: 20,
         temperature: 0.4,
         top_p: 1,
         presence_penalty: 2,

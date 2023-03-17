@@ -1,5 +1,5 @@
-console.clear();
-// console.log = function () { }
+// console.clear();
+console.log = function () { }
 
 // Geo Loctaion Check
 // getGeoLocation();
@@ -60,6 +60,7 @@ const buttonGenerate = document.getElementById("buttonGenerateInput");
 const buttonAIGenerate = document.getElementById("buttonAIGenerateInput");
 const inputField = document.getElementById("inputField");
 const result = document.getElementById("result");
+const returnDiv = document.getElementById("returnDiv");
 
 inputField.focus();
 
@@ -152,6 +153,7 @@ let gifLinkData;
 // DEBUG
 inputField.value = "Welcome";
 searchForGif();
+inputField.value = "";
 
 async function searchForGif() {
     newSiteLoad = true;
@@ -185,10 +187,13 @@ async function searchForGif() {
         startGIF = 0;
         endGIF = nOfGIFs - 1;
 
-        data = inputField.value;
-        if (data == "") {
-            data = "404";
+        if (inputField.value == "") {
+            inputField.value = "404";
         }
+
+        addReturnText("Search: " + inputField.value);
+
+        data = inputField.value;
 
         try {
             console.log("Connecting to GIF Server ...");
@@ -213,10 +218,14 @@ function appendGIFsToSite(gifData) {
 
     for (i = startGIF; i <= endGIF; i++) {
         if (gifLinkData[i] === undefined) {
+            let newDiv = document.createElement("div");
+            newDiv.classList.add("resultDivText");
+
             let p = document.createElement("p");
             p.classList.add("resultText");
 
-            result.appendChild(p);
+            newDiv.appendChild(p);
+            result.appendChild(newDiv);
 
             if (i == 0) {
                 result.style.justifyContent = "center";
@@ -300,6 +309,9 @@ async function generateAIresponse() {
         console.log(jsonAI);
         console.log("");
 
+
+        addReturnText("AI&nbsp;&nbsp;&nbsp;Q: " + inputField.value + "&nbsp;&nbsp;&nbsp;A: " + jsonAI.data);
+
         inputField.value = jsonAI.data;
 
         console.log("Button AI Generate: " + jsonAI.data + "\n\n");
@@ -310,4 +322,12 @@ async function generateAIresponse() {
         console.log("AI RESPONSE ERROR:");
         console.error(error);
     }
+}
+
+function addReturnText(text) {
+    let newText = document.createElement("p");
+    newText.classList.add("returnText");
+    newText.innerHTML = text;
+
+    returnDiv.appendChild(newText);
 }
