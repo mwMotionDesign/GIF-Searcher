@@ -76,11 +76,11 @@ document.addEventListener("keypress", (event) => {
     }
     if (event.key === ":") {
         event.preventDefault();
-        switchImages();
+        generateRandomWord();
     }
     if (event.key === "_") {
         event.preventDefault();
-        generateRandomWord();
+        switchImages();
     }
     if (event.shiftKey) {
         if (event.key === "Enter") {
