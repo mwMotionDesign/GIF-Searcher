@@ -444,7 +444,7 @@ input {
     }
 }
 
-@media all and (max-width: 550px) {
+@media all and (max-width: 400px) {
 
     .resultDiv,
     .resultDivText {
