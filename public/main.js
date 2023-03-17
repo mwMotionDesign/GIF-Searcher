@@ -157,12 +157,12 @@ let gifLinkData;
 // DEBUG
 // inputField.value = "Welcome";
 // searchForGif();
-// inputField.value = "";
+inputField.value = "";
 
 async function searchForGif() {
     newSiteLoad = true;
 
-    if (data == inputField.value) {
+    if (data == inputField.value && data != "") {
         // console.log("Asking: ");
         // console.log("data Length: " + gifLinkData.length);
         // console.log("endGIF: " + endGIF);
