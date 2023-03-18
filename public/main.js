@@ -376,15 +376,17 @@ function addReturnText(text, search) {
 function linkToInput(event) {
     event.preventDefault;
 
-    inputField.value = event.target.textContent;
-    inputField.focus();
-    inputField.select();
+    if (inputField.value != event.target.textContent) {
+        inputField.value = event.target.textContent;
+        inputField.focus();
+        inputField.select();
 
-    console.log("\nSetting history Event: " + event.target.textContent + "\n");
+        console.log("\nSetting history Event: " + event.target.textContent + "\n");
 
-    historySearch = true;
+        historySearch = true;
 
-    searchForGif();
+        searchForGif();
+    }
 }
 
 async function getAImodels() {
