@@ -1,5 +1,5 @@
-// console.clear();
-console.log = function () { }
+console.clear();
+// console.log = function () { }
 
 // Geo Loctaion Check
 // getGeoLocation();
@@ -195,7 +195,7 @@ async function searchForGif() {
             inputField.value = "404";
         }
 
-        addReturnText("Search: " + inputField.value);
+        addReturnText("Search: ", inputField.value);
 
         data = inputField.value;
 
@@ -212,6 +212,8 @@ async function searchForGif() {
         }
     }
 }
+
+let buttonCopy;
 
 function appendGIFsToSite(gifData) {
     let allImagesFound = 0;
@@ -258,9 +260,15 @@ function appendGIFsToSite(gifData) {
             newIMGhidden.classList.add("resultIMGhidden");
             newIMGhidden.src = gifLinkData[i].images["fixed_height_small"].url;
 
-            newDiv.appendChild(newA);
+            let newCopy = document.createElement("button");
+            newCopy.classList.add("copyButton");
+            newCopy.textContent = 'COPY';
+            newCopy.addEventListener("click", copyLinkToClipboard);
+
             newA.appendChild(newIMG);
             newA.appendChild(newIMGhidden);
+            newDiv.appendChild(newA);
+            newDiv.appendChild(newCopy);
             result.appendChild(newDiv);
 
             if (i == endGIF) {
@@ -295,6 +303,12 @@ function appendGIFsToSite(gifData) {
     }
 }
 
+function copyLinkToClipboard() {
+    let copyURL = this.previousSibling.href;
+    navigator.clipboard.writeText(copyURL);
+    console.log("Copied Link to clipboard: " + copyURL);
+}
+
 async function generateAIresponse() {
     const data = { prompt: inputField.value };
 
@@ -314,7 +328,7 @@ async function generateAIresponse() {
         console.log("");
 
 
-        addReturnText("AI&nbsp;&nbsp;&nbsp;Q: " + inputField.value + "&nbsp;&nbsp;&nbsp;A: " + jsonAI.data);
+        addReturnText("AI&nbsp;&nbsp;&nbsp;Q: " + inputField.value + "&nbsp;&nbsp;&nbsp;A: " + jsonAI.data, "");
 
         inputField.value = jsonAI.data;
 
@@ -328,12 +342,39 @@ async function generateAIresponse() {
     }
 }
 
-function addReturnText(text) {
+function addReturnText(text, search) {
+    console.log(text, search);
+
     let newText = document.createElement("p");
     newText.classList.add("returnText");
-    newText.innerHTML = text;
 
-    returnDiv.appendChild(newText);
+    if (search != "") {
+        let newA = document.createElement("a");
+        newA.classList.add("linkToInput");
+        newA.href = "#";
+        newA.textContent = search;
+        newA.addEventListener("click", linkToInput);
+
+        newText.appendChild(document.createTextNode(text));
+        newText.appendChild(newA);
+
+        returnDiv.appendChild(newText);
+    }
+    else {
+        newText.innerHTML = text;
+        returnDiv.appendChild(newText);
+    }
+
+}
+
+function linkToInput(event) {
+    event.preventDefault;
+
+    inputField.value = event.target.textContent;
+    inputField.focus();
+    inputField.select();
+
+    console.log("\nSetting history Event: " + event.target.textContent + "\n");
 }
 
 async function getAImodels() {

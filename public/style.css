@@ -278,6 +278,7 @@ input {
 
 .resultDiv,
 .resultDivText {
+    position: relative;
     width: 18.5%;
     height: 30.33%;
     border-radius: 0.2vmin;
@@ -328,6 +329,30 @@ input {
     opacity: 0.75;
     filter: brightness(0.0) blur(0px);
     transition: 0.3s ease-in-out;
+}
+
+.copyButton {
+    position: absolute;
+    bottom: -40%;
+    right: 5%;
+    font-size: min(12px, 4vw);
+    font-weight: bold;
+    color: var(--buttonFontColor);
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--highlightColor);
+    transition: 0.5s;
+    z-index: 10;
+}
+
+.resultDiv:hover .copyButton {
+    bottom: 5%;
+}
+
+.copyButton:hover {
+    transform: scale(1.2);
+    cursor: pointer;
 }
 
 .resultDivText {
