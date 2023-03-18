@@ -6,8 +6,9 @@
     --bright-color: rgb(255, 255, 255);
     --backgroundBrightener: rgb(255, 255, 255, 0.03);
     --backgroundResults: rgb(255, 255, 255, 0.05);
-    --highlightColor: rgb(236, 63, 252);
+    --highlightColor: rgb(173, 40, 185);
     --buttonFontColor: rgb(255, 255, 255);
+    --logText: rgba(255, 255, 255, 0.5);
 }
 
 * {
@@ -135,6 +136,8 @@ h2 {
 
 .returnText {
     margin: 0.2% 0%;
+    font-size: clamp(0.8vw, 12px, 16px);
+    color: var(--logText);
 }
 
 /* SEARCH */
@@ -339,52 +342,50 @@ input {
     align-items: center;
 }
 
-@media all and (max-width: 900px) {
-    #flexReturn {
-        display: none;
-    }
+/* FOOTER */
 
-    .resultDiv,
-    .resultDivText {
-        width: 30.33%;
-        height: 18.5%;
-    }
+#footerContainer {
+    width: 100%;
+    height: 30px;
+    background-color: var(--background-color);
+}
 
-    #flexSearch {
-        flex: 1 0 300px;
-        min-width: 100%;
-    }
+#logoMobile {
+    display: none;
+    width: 90%;
+    padding-left: 5%;
+    height: calc(100% - 30px);
+}
 
-    #flexLogo {
-        display: none;
-    }
+#giphyIMGmobile {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: 50% 50%;
+}
 
-    #resultContainer {
-        height: 70%;
-    }
+#footer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: var(--debugColor);
+}
 
-    #logoMobile {
-        width: 100%;
-        height: 10%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: var(--background-color);
-    }
+.footerLink,
+.footerText {
+    padding: 0px 15px;
+}
 
-    #logoContainer {
-        width: 90%;
-        height: 90%;
-        background-color: var(--debugColor);
-    }
+.footerLink {
+    color: var(--highlightColor);
+    text-decoration: none;
+}
 
-    #giphyIMGmobile {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        object-position: 50% 50%;
-    }
+.footerText {
+    color: var(--logText);
 }
 
 @media all and (max-width: 1700px) {
@@ -420,27 +421,16 @@ input {
         height: 70%;
     }
 
-    #logoMobile {
-        width: 100%;
+    #footerContainer {
         height: 10%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: var(--background-color);
     }
 
-    #logoContainer {
-        width: 90%;
-        height: 90%;
-        background-color: var(--debugColor);
+    #logoMobile {
+        display: inherit;
     }
 
-    #giphyIMGmobile {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        object-position: 50% 50%;
+    #footer {
+        height: 30px;
     }
 }
 
@@ -450,5 +440,15 @@ input {
     .resultDivText {
         width: 47%;
         height: 10.5%;
+    }
+
+    #footer {
+        justify-content: center;
+    }
+
+    .footerLink,
+    .footerText {
+        padding: 0px 3vw;
+        font-size: 4vw;
     }
 }
