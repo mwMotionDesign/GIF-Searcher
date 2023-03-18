@@ -339,7 +339,7 @@ input {
 
 .copyButton {
     position: absolute;
-    bottom: -40%;
+    top: -40%;
     right: 5%;
     font-size: min(12px, 4vw);
     font-weight: bold;
@@ -350,15 +350,17 @@ input {
     background-color: var(--highlightColor);
     transition: 0.5s;
     z-index: 10;
+    opacity: 0.5;
 }
 
 .resultDiv:hover .copyButton {
-    bottom: 5%;
+    top: 5%;
 }
 
 .copyButton:hover {
     transform: scale(1.2);
     cursor: pointer;
+    opacity: 1;
 }
 
 .resultDivText {

@@ -153,6 +153,7 @@ let endGIF = 14;
 let data = inputField.value;
 let responseJSON;
 let gifLinkData;
+let historySearch = false;
 
 // DEBUG
 // inputField.value = "Welcome";
@@ -195,7 +196,12 @@ async function searchForGif() {
             inputField.value = "404";
         }
 
-        addReturnText("Search: ", inputField.value);
+        if (!historySearch) {
+            addReturnText("Search: ", inputField.value);
+        }
+        else {
+            historySearch = false;
+        }
 
         data = inputField.value;
 
@@ -375,6 +381,8 @@ function linkToInput(event) {
     inputField.select();
 
     console.log("\nSetting history Event: " + event.target.textContent + "\n");
+
+    historySearch = true;
 
     searchForGif();
 }
