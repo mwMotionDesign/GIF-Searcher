@@ -140,6 +140,12 @@ h2 {
     color: var(--logText);
 }
 
+.linkToInput {
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--bright-color);
+}
+
 /* SEARCH */
 
 input {

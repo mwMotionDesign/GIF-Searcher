@@ -1,5 +1,5 @@
-console.clear();
-// console.log = function () { }
+// console.clear();
+console.log = function () { }
 
 // Geo Loctaion Check
 // getGeoLocation();
@@ -375,6 +375,8 @@ function linkToInput(event) {
     inputField.select();
 
     console.log("\nSetting history Event: " + event.target.textContent + "\n");
+
+    searchForGif();
 }
 
 async function getAImodels() {
