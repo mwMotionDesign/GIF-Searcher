@@ -55,11 +55,11 @@ async function getFromDatabase() {
 
 // Main Code
 
-inputField.focus();
-
 const inputField = document.getElementById("inputField");
 const result = document.getElementById("result");
 const returnDiv = document.getElementById("returnDiv");
+
+inputField.focus();
 
 const buttonFetch = document.getElementById("buttonFetchInput");
 const buttonGenerate = document.getElementById("buttonGenerateInput");
