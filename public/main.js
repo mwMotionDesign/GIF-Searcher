@@ -1,5 +1,5 @@
-console.clear();
-// console.log = function () { }
+// console.clear();
+console.log = function () { }
 
 // Geo Loctaion Check
 // getGeoLocation();
@@ -55,18 +55,58 @@ async function getFromDatabase() {
 
 // Main Code
 
-const buttonFetch = document.getElementById("buttonFetchInput");
-const buttonGenerate = document.getElementById("buttonGenerateInput");
-const buttonAIGenerate = document.getElementById("buttonAIGenerateInput");
+inputField.focus();
+
 const inputField = document.getElementById("inputField");
 const result = document.getElementById("result");
 const returnDiv = document.getElementById("returnDiv");
 
-inputField.focus();
+const buttonFetch = document.getElementById("buttonFetchInput");
+const buttonGenerate = document.getElementById("buttonGenerateInput");
+const buttonAIGenerate = document.getElementById("buttonAIGenerateInput");
 
-buttonFetch.addEventListener("click", searchForGif);
-buttonGenerate.addEventListener("click", generateRandomWord);
-buttonAIGenerate.addEventListener("click", generateAIresponse);
+const legendeSearchGif = document.getElementById("legendeSearchGif");
+const legendeRandomWord = document.getElementById("legendeRandomWord");
+const legendeAskAI = document.getElementById("legendeAskAI");
+const legendeSwitchImages = document.getElementById("legendeSwitchImages");
+const legendeFocusSearchbar = document.getElementById("legendeFocusSearchbar");
+
+buttonFetch.addEventListener("click", (e) => {
+    e.preventDefault;
+    searchForGif();
+});
+buttonGenerate.addEventListener("click", (e) => {
+    e.preventDefault;
+    generateRandomWord();
+});
+buttonAIGenerate.addEventListener("click", (e) => {
+    e.preventDefault;
+    generateAIresponse();
+});
+
+legendeSearchGif.addEventListener("click", (e) => {
+    e.preventDefault;
+    searchForGif();
+});
+legendeRandomWord.addEventListener("click", (e) => {
+    e.preventDefault;
+    generateRandomWord();
+});
+legendeAskAI.addEventListener("click", (e) => {
+    e.preventDefault;
+    generateAIresponse();
+});
+legendeSwitchImages.addEventListener("click", (e) => {
+    e.preventDefault;
+    switchImages();
+    inputField.focus();
+    inputField.select();
+});
+legendeFocusSearchbar.addEventListener("click", (e) => {
+    e.preventDefault;
+    inputField.focus();
+    inputField.select();
+});
 
 document.addEventListener("keypress", (event) => {
     if (event.key === ";") {
@@ -137,6 +177,8 @@ async function generateRandomWord() {
         inputField.value = randomWord;
 
         console.log("Button Generate: " + randomWord);
+
+        searchForGif();
 
         inputField.focus();
         inputField.select();
@@ -385,6 +427,8 @@ async function generateAIresponse() {
         inputField.value = jsonAI.data;
 
         console.log("Button AI Generate: " + jsonAI.data + "\n\n");
+
+        searchForGif();
 
         inputField.focus();
         inputField.select();

@@ -209,9 +209,14 @@ input {
     padding: 5px 0px;
 }
 
-.hLegende {
+.hLegende>a {
     color: var(--highlightColor);
     font-weight: bold;
+    text-decoration: none;
+}
+
+.hLegende>a:hover {
+    color: var(--bright-color);
 }
 
 /* LOGO */
@@ -424,7 +429,7 @@ input {
     color: var(--logText);
 }
 
-@media all and (max-width: 1700px) {
+@media all and (max-width: 1000px) {
 
     .resultDiv,
     .resultDivText {
@@ -433,7 +438,7 @@ input {
     }
 }
 
-@media all and (max-width: 900px) {
+@media all and (max-width: 500px) {
     #flexReturn {
         display: none;
     }
@@ -470,7 +475,7 @@ input {
     }
 }
 
-@media all and (max-width: 400px) {
+@media all and (max-width: 250px) {
 
     .resultDiv,
     .resultDivText {
