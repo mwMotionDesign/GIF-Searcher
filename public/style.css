@@ -311,24 +311,25 @@ input {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: 0.6s ease-in;
 }
 
 .resultIMGhidden {
     object-fit: contain;
     opacity: 0;
-    transform: translate(-0%, -101.5%) scale(2);
+    transform: translate(-0%, -101.5%) scale(1.5);
+    transition: 0.5s ease-in-out;
 }
 
 .resultDiv:hover .resultIMGhidden {
     opacity: 1;
     transform: translate(-0%, -101.5%) scale(1);
-    transition: 0.3s ease-in-out;
+    transition: 0.3s ease-out;
 }
 
 .resultIMG {
     width: 100%;
     height: 100%;
+    transition: 0.4s ease-in;
 }
 
 .resultDiv:hover .resultIMG {
@@ -339,7 +340,7 @@ input {
 
 .copyButton {
     position: absolute;
-    top: -40%;
+    top: 5%;
     right: 5%;
     font-size: min(12px, 4vw);
     font-weight: bold;
@@ -348,18 +349,20 @@ input {
     border: none;
     border-radius: 5px;
     background-color: var(--highlightColor);
-    transition: 0.5s;
-    z-index: 10;
-    opacity: 0.5;
+    transition: 0.2s;
+    z-index: 100;
+    opacity: 0;
+    transform: scale(0.2);
 }
 
 .resultDiv:hover .copyButton {
-    top: 5%;
+    opacity: 0.5;
+    transform: scale(1);
 }
 
-.copyButton:hover {
-    transform: scale(1.2);
+.resultDiv:hover .copyButton:hover {
     cursor: pointer;
+    transform: scale(1.2);
     opacity: 1;
 }
 

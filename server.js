@@ -63,22 +63,24 @@ app.get("/getFromDB", (request, response) => {
 
 // GIF Request
 
-app.get("/getGIFrequest/:data", async (request, response) => {
+app.get("/getGIFrequest/", async (request, response) => {
     console.log("Requesting GIFs for:");
 
-    const data = request.params.data;
-    console.log(data);
+    const searchTerm = request.query.searchTerm;
+    const offset = request.query.offset;
+    console.log("searchTerm: " + searchTerm);
+    console.log("offset: " + offset);
 
-    const gifSearch = "https://api.giphy.com/v1/gifs/search?rating=r&api_key=".concat(process.env.GIPHY_KEY);
+    const gifSearch = "https://api.giphy.com/v1/gifs/search?rating=r&limit=90&api_key=".concat(process.env.GIPHY_KEY);
 
     try {
-        let promiseGIF = await fetch(gifSearch.concat("&q=", data));
+        let promiseGIF = await fetch(gifSearch.concat("&offset=", offset, "&q=", searchTerm));
         let jsonGIF = await promiseGIF.json();
         console.log("Number of GIFs found:\n" + jsonGIF.data.length + "\n");
 
-        db.loadDatabase();
-        const time = Date.now();
-        db.insert({ log: "Requesting GIFs", Search: data, FounGIFs: jsonGIF.data.length, time: time });
+        // db.loadDatabase();
+        // const time = Date.now();
+        // db.insert({ log: "Requesting GIFs", Search: data, FounGIFs: jsonGIF.data.length, time: time });
 
         response.json({
             status: "200 - Succesful PostRequest",
@@ -145,9 +147,9 @@ app.post("/postAIrequest", async (request, response) => {
         console.log(aiResponseAnswer.text);
         console.log("");
 
-        db.loadDatabase();
-        const time = Date.now();
-        db.insert({ log: "Requesting AI", Search: data.prompt, aiResponse: aiResponseAnswer.text, time: time });
+        // db.loadDatabase();
+        // const time = Date.now();
+        // db.insert({ log: "Requesting AI", Search: data.prompt, aiResponse: aiResponseAnswer.text, time: time });
 
         response.json({
             status: "200 - Succesful PostRequest",

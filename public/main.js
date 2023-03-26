@@ -1,5 +1,5 @@
-// console.clear();
-console.log = function () { }
+console.clear();
+// console.log = function () { }
 
 // Geo Loctaion Check
 // getGeoLocation();
@@ -23,7 +23,7 @@ function getGeoLocation() {
 
 const dateOnEntry = Date.now();
 
-postToDatabase();
+// postToDatabase();
 
 async function postToDatabase() {
     const data = { log: "", time: dateOnEntry };
@@ -116,7 +116,6 @@ function switchImages() {
         });
 
         imageContain = true;
-        newSiteLoad = false;
         console.log("Image is switched to contain\n\n")
     }
     else if (imageContain) {
@@ -148,69 +147,93 @@ async function generateRandomWord() {
 }
 
 const nOfGIFs = 15;
+let currentNofGIFs = nOfGIFs;
 let startGIF = 0;
 let endGIF = 14;
-let data = inputField.value;
+let searchTerm = inputField.value;
 let responseJSON;
 let gifLinkData;
 let historySearch = false;
+let fetchMoreGifs = false;
+let newSearch = true;
+let offset = 0;
+let lastGIFreached = false;
+let firstGIFlength = 0;
 
 // DEBUG
-// inputField.value = "Welcome";
-// searchForGif();
+inputField.value = "Welcome";
+let firstSearch = true;
+searchForGif();
 inputField.value = "";
 
 async function searchForGif() {
     newSiteLoad = true;
 
-    if (data == inputField.value && data != "") {
-        // console.log("Asking: ");
-        // console.log("data Length: " + gifLinkData.length);
-        // console.log("endGIF: " + endGIF);
-        // console.log("startGIF: " + startGIF);
+    if (searchTerm == inputField.value && searchTerm != "" && !lastGIFreached) {
+        newSearch = false;
 
-        if (startGIF == 0 && endGIF < gifLinkData.length) {
-            startGIF = nOfGIFs;
-            endGIF = (nOfGIFs * 2) - 1;
-        }
-        else if (startGIF == nOfGIFs && endGIF < gifLinkData.length) {
-            startGIF = nOfGIFs * 2;
-            endGIF = (nOfGIFs * 3) - 1;
-        }
-        else if (startGIF == nOfGIFs * 2 && endGIF < gifLinkData.length) {
-            startGIF = nOfGIFs * 3;
-            endGIF = (nOfGIFs * 4) - 1;
+        if (endGIF + 1 < gifLinkData.length) {
+            console.log("Last GIF < ListLength");
+            startGIF = currentNofGIFs;
+            currentNofGIFs = currentNofGIFs + nOfGIFs;
+            endGIF = (currentNofGIFs) - 1;
+            offset = offset + nOfGIFs;
         }
         else {
+            console.log("Last GIF >= ListLength");
             startGIF = 0;
             endGIF = nOfGIFs - 1;
+            currentNofGIFs = nOfGIFs;
+
+            try {
+                console.log("Connecting to GIF Server for more GIFs ...");
+                const response = await fetch("/getGIFrequest".concat("?searchTerm=", searchTerm, "&offset=", offset));
+                responseJSON = await response.json();
+                console.log("- Done!");
+            } catch (error) {
+                console.log("GIF RESPONSE ERROR:");
+                console.error(error);
+            }
+
+            offset = offset + nOfGIFs;
         }
 
         appendGIFsToSite(responseJSON.data.data);
     }
     else {
+        if (searchTerm != inputField.value) {
+            lastGIFreached = false;
+        }
+        newSearch = true;
         startGIF = 0;
         endGIF = nOfGIFs - 1;
+        currentNofGIFs = nOfGIFs;
+        offset = 0;
 
         if (inputField.value == "") {
             inputField.value = "404";
         }
 
-        if (!historySearch) {
+        console.log(historySearch, lastGIFreached);
+
+        if (!firstSearch && !historySearch && !lastGIFreached) {
             addReturnText("Search: ", inputField.value);
         }
         else {
             historySearch = false;
+            firstSearch = false;
         }
 
-        data = inputField.value;
+        searchTerm = inputField.value;
+        lastGIFreached = false;
 
         try {
-            console.log("Connecting to GIF Server ...");
-            const response = await fetch("/getGIFrequest/".concat(data));
+            console.log("Connecting to GIF Server for new Search ...");
+            const response = await fetch("/getGIFrequest".concat("?searchTerm=", searchTerm, "&offset=", offset));
             responseJSON = await response.json();
             console.log("- Done!");
 
+            offset = nOfGIFs;
             appendGIFsToSite(responseJSON.data.data);
         } catch (error) {
             console.log("GIF RESPONSE ERROR:");
@@ -230,25 +253,44 @@ function appendGIFsToSite(gifData) {
 
     for (i = startGIF; i <= endGIF; i++) {
         if (gifLinkData[i] === undefined) {
-            let newDiv = document.createElement("div");
-            newDiv.classList.add("resultDivText");
-
-            let p = document.createElement("p");
-            p.classList.add("resultText");
-
-            newDiv.appendChild(p);
-            result.appendChild(newDiv);
-
-            if (i == 0) {
-                result.style.justifyContent = "center";
+            if (lastGIFreached) {
+                searchForGif();
             }
+            else {
+                let newDiv = document.createElement("div");
+                newDiv.classList.add("resultDivText");
 
-            p.innerHTML = i + " GIFs found!";
-            allImagesFound = i;
+                let p = document.createElement("p");
+                p.classList.add("resultText");
 
-            logGIFinfo(gifLinkData);
+                newDiv.appendChild(p);
+                result.appendChild(newDiv);
 
-            return;
+                if (i == 0) {
+                    result.style.justifyContent = "center";
+                }
+
+                allImagesFound = i;
+                p.innerHTML = calculateNofGIFs();
+
+                function calculateNofGIFs() {
+                    if (allImagesFound < nOfGIFs || allImagesFound <= firstGIFlength && offset - nOfGIFs <= firstGIFlength) {
+                        return allImagesFound + " GIFs found!";
+                    }
+                    else if (offset >= firstGIFlength) {
+                        return Math.floor(offset / firstGIFlength) * firstGIFlength + allImagesFound + " GIFs found!";
+                    }
+                    // hogwashes = 7 GIFS
+                    // allays = 22 GIFS
+                    // Olivia Wilde = 155 GIFS
+                }
+
+                logGIFinfo(gifLinkData);
+
+                lastGIFreached = true;
+
+                return;
+            }
         }
         else if (i <= endGIF) {
             let newDiv = document.createElement("div");
@@ -291,14 +333,18 @@ function appendGIFsToSite(gifData) {
 
         if (newSiteLoad) {
             console.log("Button Fetch: " + inputField.value);
+            console.log("- GIF List Length: " + gifLinkData.length);
+            if (gifLinkData.length > firstGIFlength || newSearch) {
+                firstGIFlength = gifLinkData.length;
+            }
             if (allImagesFound == endGIF + 1) {
-                console.log("- " + allImagesFound + " GIFs posted!")
+                console.log("- " + allImagesFound + " GIFs of List posted!")
+                console.log("- " + offset + " Offset")
             }
             else {
-                console.log("- " + i + " GIFs posted!")
+                console.log("- " + i + " GIFs of List posted! - End of List")
+                console.log("- " + offset + " Offset")
             }
-            console.log("Get GIFs Response:");
-            console.log("GIF List Length: " + gifLinkData.length);
             console.log("");
         }
 
