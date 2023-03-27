@@ -115,6 +115,10 @@ document.addEventListener("keydown", (event) => {
             event.preventDefault();
             generateRandomWord();
         }
+        else if (event.key === "Backspace") {
+            event.preventDefault();
+            switchImages();
+        }
     }
     else if (event.ctrlKey) {
         if (event.key === "Enter") {
@@ -135,10 +139,6 @@ document.addEventListener("keydown", (event) => {
     else if (event.key === "Enter") {
         event.preventDefault();
         searchForGif();
-    }
-    else if (event.key === "Tab") {
-        event.preventDefault();
-        switchImages();
     }
 });
 
