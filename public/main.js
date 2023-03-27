@@ -211,14 +211,10 @@ let firstGIFlength = 0;
 // DEBUG
 let firstSearch = true;
 
-loadWelcome();
-
-function loadWelcome() {
-    inputField.value = "Welcome";
-    firstSearch = true;
-    searchForGif();
-    inputField.value = "";
-}
+inputField.value = "Welcome";
+firstSearch = true;
+searchForGif();
+inputField.value = "";
 
 async function searchForGif() {
     newSiteLoad = true;
@@ -528,7 +524,8 @@ function changeNumberOfGifs() {
         document.documentElement.style.setProperty('--widthMini', "45%");
         document.documentElement.style.setProperty('--heightMini', "11%");
 
-        loadWelcome();
+        firstSearch = true;
+        searchForGif();
     }
     else if (tempNumber == 15) {
         console.log("Changing to 6 GIFs");
@@ -545,7 +542,8 @@ function changeNumberOfGifs() {
         document.documentElement.style.setProperty('--widthMini', "95%");
         document.documentElement.style.setProperty('--heightMini', "15%");
 
-        loadWelcome();
+        firstSearch = true;
+        searchForGif();
     }
 };
 
