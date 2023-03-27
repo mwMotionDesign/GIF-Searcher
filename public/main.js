@@ -203,6 +203,7 @@ let gifLinkData;
 let historySearch = false;
 let fetchMoreGifs = false;
 let newSearch = true;
+
 let offset = 0;
 let lastGIFreached = false;
 let firstGIFlength = 0;
@@ -222,7 +223,7 @@ function loadWelcome() {
 async function searchForGif() {
     newSiteLoad = true;
 
-    if (searchTerm == inputField.value && searchTerm != "" && !lastGIFreached) {
+    if (!firstSearch && searchTerm == inputField.value && searchTerm != "" && !lastGIFreached) {
         newSearch = false;
 
         if (endGIF + 1 < gifLinkData.length) {
