@@ -112,7 +112,7 @@ app.post("/postAIrequest", async (request, response) => {
     let newPrompt = "";
     if (data.prompt != "") {
         // newPrompt = "Summarize the following sentence in a maximum of two words: ".concat(data.prompt);
-        newPrompt = "Answer with a maximum of two words. Dont use punctuation: ".concat(data.prompt);
+        newPrompt = "Answer with maximum of two words: ".concat(data.prompt);
     }
     else if (data.prompt == "") {
         newPrompt = "Generate an interesting word for a GIF search:";
@@ -121,6 +121,7 @@ app.post("/postAIrequest", async (request, response) => {
     console.log(data.prompt);
     console.log("Changed to:");
     console.log(newPrompt);
+    console.log("");
 
     const aiPrompt = {
         model: "text-davinci-003",
@@ -134,19 +135,24 @@ app.post("/postAIrequest", async (request, response) => {
 
     console.log("AI Parameters: ");
     console.log(aiPrompt);
+    console.log("");
 
     try {
         let responseAI = await openAI.createCompletion(aiPrompt);
         let aiResponseAnswer = await responseAI.data.choices[0];
+        let aiAnswer = aiResponseAnswer.text;
 
-        // console.log("AI Response Object:");
-        // console.log(responseAI);
-        // console.log("");
+        aiAnswer = aiAnswer.replace(/[.,!?:;]/g, "");
+        aiAnswer = aiAnswer.replace(/\n/g, "");
+
         console.log("AI Response Answer:");
+        console.log(responseAI.data.usage);
         console.log(aiResponseAnswer);
         console.log("");
         console.log("AI Response:");
         console.log(aiResponseAnswer.text);
+        console.log("Changed to:");
+        console.log(aiAnswer);
         console.log("");
 
         // db.loadDatabase();
@@ -155,14 +161,88 @@ app.post("/postAIrequest", async (request, response) => {
 
         response.json({
             status: "200 - Succesful PostRequest",
-            data: aiResponseAnswer.text
+            data: aiAnswer
         });
 
         response.end();
     } catch (error) {
         console.log("AI RESPONSE ERROR:");
-        // console.error(error);
-        console.log(error);
+        console.error(error.response.status, ": ", error.response.statusText);
+        console.error(error.response.data.error.message);
+        response.end();
+    }
+});
+
+app.post("/postAIrequestTurbo", async (request, response) => {
+    const data = request.body;
+    let newPrompt = "";
+    if (data.prompt != "") {
+        newPrompt = "".concat(data.prompt);
+    }
+    else if (data.prompt == "") {
+        newPrompt = "Generate an interesting word for a GIF search:";
+    }
+    console.log("Request AI Response for:");
+    console.log(data.prompt);
+    console.log("Changed to:");
+    console.log(newPrompt);
+    console.log("");
+
+    const aiPrompt = {
+        model: "gpt-3.5-turbo",
+        messages: [
+            {
+                role: 'system',
+                content: 'Assistant who answers with a maximum of two words.',
+            },
+            {
+                role: "user",
+                content: newPrompt
+            }],
+        max_tokens: 20,
+        temperature: 0.4,
+        top_p: 1,
+        presence_penalty: 2,
+        frequency_penalty: 2
+    }
+
+    console.log("AI Parameters: ");
+    console.log(aiPrompt);
+    console.log("");
+
+    try {
+        let responseAI = await openAI.createChatCompletion(aiPrompt);
+        let aiResponseAnswer = await responseAI.data.choices[0];
+        let aiAnswer = aiResponseAnswer.message.content;
+
+        aiAnswer = aiAnswer.replace(/[.,!?:;]/g, "");
+        aiAnswer = aiAnswer.replace(/\n/g, "");
+
+        console.log("AI Response Answer:");
+        console.log(responseAI.data.usage);
+        console.log(aiResponseAnswer);
+        console.log("");
+        console.log("AI Response:");
+        console.log(aiResponseAnswer.message.content);
+        console.log("Changed to:");
+        console.log(aiAnswer);
+        console.log("");
+
+        // db.loadDatabase();
+        // const time = Date.now();
+        // db.insert({ log: "Requesting AI", Search: data.prompt, aiResponse: aiResponseAnswer.text, time: time });
+
+
+        response.json({
+            status: "200 - Succesful PostRequest",
+            data: aiAnswer
+        });
+
+        response.end();
+    } catch (error) {
+        console.log("AI RESPONSE ERROR:");
+        console.error(error.response.status, ": ", error.response.statusText);
+        console.error(error.response.data.error.message);
         response.end();
     }
 });

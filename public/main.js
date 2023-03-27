@@ -449,7 +449,8 @@ async function generateAIresponse() {
             body: JSON.stringify(data)
         };
 
-        const responseAI = await fetch("/postAIrequest", options);
+        // const responseAI = await fetch("/postAIrequest", options);       // Davinci 003
+        const responseAI = await fetch("/postAIrequestTurbo", options);     // GPT 3.5 Turbo
         const jsonAI = await responseAI.json();
         console.log("AI Response:");
         console.log(jsonAI);
