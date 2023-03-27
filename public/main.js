@@ -69,7 +69,7 @@ const legendeSearchGif = document.getElementById("legendeSearchGif");
 const legendeRandomWord = document.getElementById("legendeRandomWord");
 const legendeAskAI = document.getElementById("legendeAskAI");
 const legendeSwitchImages = document.getElementById("legendeSwitchImages");
-const legendeFocusSearchbar = document.getElementById("legendeFocusSearchbar");
+const legendeChangeGifAmount = document.getElementById("legendeChangeGifAmount");
 
 buttonFetch.addEventListener("click", (e) => {
     e.preventDefault;
@@ -102,8 +102,9 @@ legendeSwitchImages.addEventListener("click", (e) => {
     inputField.focus();
     inputField.select();
 });
-legendeFocusSearchbar.addEventListener("click", (e) => {
+legendeChangeGifAmount.addEventListener("click", (e) => {
     e.preventDefault;
+    changeNumberOfGifs();
     inputField.focus();
     inputField.select();
 });
@@ -111,6 +112,7 @@ legendeFocusSearchbar.addEventListener("click", (e) => {
 document.addEventListener("keypress", (event) => {
     if (event.key === ";") {
         event.preventDefault();
+        changeNumberOfGifs();
         inputField.focus();
         inputField.select();
     }
@@ -188,7 +190,10 @@ async function generateRandomWord() {
     }
 }
 
-const nOfGIFs = 15;
+let nOfGIFs = 6;
+let gifsToDownload = 30;
+let gifSizeToDownload = "fixed_width";
+
 let currentNofGIFs = nOfGIFs;
 let startGIF = 0;
 let endGIF = 14;
@@ -203,10 +208,16 @@ let lastGIFreached = false;
 let firstGIFlength = 0;
 
 // DEBUG
-inputField.value = "Welcome";
 let firstSearch = true;
-searchForGif();
-inputField.value = "";
+
+loadWelcome();
+
+function loadWelcome() {
+    inputField.value = "Welcome";
+    firstSearch = true;
+    searchForGif();
+    inputField.value = "";
+}
 
 async function searchForGif() {
     newSiteLoad = true;
@@ -229,9 +240,10 @@ async function searchForGif() {
 
             try {
                 console.log("Connecting to GIF Server for more GIFs ...");
-                const response = await fetch("/getGIFrequest".concat("?searchTerm=", searchTerm, "&offset=", offset));
+                const response = await fetch("/getGIFrequest".concat("?searchTerm=", searchTerm, "&offset=", offset, "&gifsToDownload=", gifsToDownload));
                 responseJSON = await response.json();
                 console.log("- Done!");
+                console.log(responseJSON.data.data);
             } catch (error) {
                 console.log("GIF RESPONSE ERROR:");
                 console.error(error);
@@ -256,8 +268,6 @@ async function searchForGif() {
             inputField.value = "404";
         }
 
-        console.log(historySearch, lastGIFreached);
-
         if (!firstSearch && !historySearch && !lastGIFreached) {
             addReturnText("Search: ", inputField.value);
         }
@@ -271,11 +281,13 @@ async function searchForGif() {
 
         try {
             console.log("Connecting to GIF Server for new Search ...");
-            const response = await fetch("/getGIFrequest".concat("?searchTerm=", searchTerm, "&offset=", offset));
+            const response = await fetch("/getGIFrequest".concat("?searchTerm=", searchTerm, "&offset=", offset, "&gifsToDownload=", gifsToDownload));
             responseJSON = await response.json();
             console.log("- Done!");
 
             offset = nOfGIFs;
+
+            console.log(responseJSON.data.data);
             appendGIFsToSite(responseJSON.data.data);
         } catch (error) {
             console.log("GIF RESPONSE ERROR:");
@@ -339,16 +351,16 @@ function appendGIFsToSite(gifData) {
             newDiv.classList.add("resultDiv");
 
             let newA = document.createElement("a");
-            newA.href = gifLinkData[i].images["fixed_height_small"].url;
+            newA.href = gifLinkData[i].images[gifSizeToDownload].url;
             newA.setAttribute('target', '_blank');
 
             let newIMG = document.createElement("img");
             newIMG.classList.add("resultIMG");
-            newIMG.src = gifLinkData[i].images["fixed_height_small"].url;
+            newIMG.src = gifLinkData[i].images[gifSizeToDownload].url;
 
             let newIMGhidden = document.createElement("img");
             newIMGhidden.classList.add("resultIMGhidden");
-            newIMGhidden.src = gifLinkData[i].images["fixed_height_small"].url;
+            newIMGhidden.src = gifLinkData[i].images[gifSizeToDownload].url;
 
             let newCopy = document.createElement("button");
             newCopy.classList.add("copyButton");
@@ -399,7 +411,25 @@ function appendGIFsToSite(gifData) {
 
 function copyLinkToClipboard() {
     let copyURL = this.previousSibling.href;
-    navigator.clipboard.writeText(copyURL);
+
+    // from:
+    // https://media4.giphy.com/media/l0MYGb1LuZ3n7dRnO/100.gif?cid=d15746c13ca0f9b9c3sz9wme7gs3pllccath7etn352bmqce&rid=100.gif&ct=g
+    // to:
+    // https://media4.giphy.com/media/l0MYGb1LuZ3n7dRnO/giphy.webp?cid=d15746c13ca0f9b9c3sz9wme7gs3pllccath7etn352bmqce&rid=giphy.webp&ct=g
+
+    let urlArray = copyURL.split("/");
+    let urlArray2 = urlArray[5].split("?");
+    let urlArray3 = urlArray2[1].split("&");
+
+    let newURL = urlArray[0].concat("//", urlArray[2], "/", urlArray[3], "/", urlArray[4], "/giphy.webp?", urlArray3[0], "&rid=giphy.webp&ct=g");
+
+    // console.log(copyURL);
+    // console.log(urlArray);
+    // console.log(urlArray2);
+    // console.log(urlArray3);
+    // console.log(newURL);
+
+    navigator.clipboard.writeText(newURL);
     console.log("Copied Link to clipboard: " + copyURL);
 }
 
@@ -478,6 +508,45 @@ function linkToInput(event) {
         searchForGif();
     }
 }
+
+function changeNumberOfGifs() {
+    let tempNumber = nOfGIFs;
+
+    if (tempNumber == 6) {
+        console.log("Changing to 15 GIFs");
+        nOfGIFs = 15;
+        gifsToDownload = 90;
+        gifSizeToDownload = "fixed_height_small";
+
+        document.documentElement.style.setProperty('--widthDesktop', "18.5%");
+        document.documentElement.style.setProperty('--heightDesktop', "30.5%");
+        document.documentElement.style.setProperty('--widthTablet', "18%");
+        document.documentElement.style.setProperty('--heightTablet', "30.5%");
+        document.documentElement.style.setProperty('--widthMobile', "30.5%");
+        document.documentElement.style.setProperty('--heightMobile', "18%");
+        document.documentElement.style.setProperty('--widthMini', "45%");
+        document.documentElement.style.setProperty('--heightMini', "11%");
+
+        loadWelcome();
+    }
+    else if (tempNumber == 15) {
+        console.log("Changing to 6 GIFs");
+        nOfGIFs = 6;
+        gifsToDownload = 30;
+        gifSizeToDownload = "fixed_width";
+
+        document.documentElement.style.setProperty('--widthDesktop', "30%");
+        document.documentElement.style.setProperty('--heightDesktop', "45%");
+        document.documentElement.style.setProperty('--widthTablet', "30%");
+        document.documentElement.style.setProperty('--heightTablet', "45%");
+        document.documentElement.style.setProperty('--widthMobile', "45%");
+        document.documentElement.style.setProperty('--heightMobile', "30%");
+        document.documentElement.style.setProperty('--widthMini', "95%");
+        document.documentElement.style.setProperty('--heightMini', "15%");
+
+        loadWelcome();
+    }
+};
 
 async function getAImodels() {
     try {

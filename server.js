@@ -68,13 +68,15 @@ app.get("/getGIFrequest/", async (request, response) => {
 
     const searchTerm = request.query.searchTerm;
     const offset = request.query.offset;
+    const gifsToDownload = request.query.gifsToDownload;
     console.log("searchTerm: " + searchTerm);
     console.log("offset: " + offset);
+    console.log("gifsToDownload: " + gifsToDownload);
 
-    const gifSearch = "https://api.giphy.com/v1/gifs/search?rating=r&limit=90&api_key=".concat(process.env.GIPHY_KEY);
+    const gifSearch = "https://api.giphy.com/v1/gifs/search?rating=r&api_key=".concat(process.env.GIPHY_KEY);
 
     try {
-        let promiseGIF = await fetch(gifSearch.concat("&offset=", offset, "&q=", searchTerm));
+        let promiseGIF = await fetch(gifSearch.concat("&limit=", gifsToDownload, "&offset=", offset, "&q=", searchTerm));
         let jsonGIF = await promiseGIF.json();
         console.log("Number of GIFs found:\n" + jsonGIF.data.length + "\n");
 

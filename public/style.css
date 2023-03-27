@@ -2,6 +2,15 @@
     --debugColor: rgba(255, 255, 255, 0.3);
     --debugColor: rgba(255, 255, 255, 0.0);
 
+    --widthDesktop: 30%;
+    --heightDesktop: 45%;
+    --widthTablet: 30%;
+    --heightTablet: 45%;
+    --widthMobile: 45%;
+    --heightMobile: 30%;
+    --widthMini: 95%;
+    --heightMini: 15%;
+
     --background-color: rgb(32, 32, 32);
     --bright-color: rgb(255, 255, 255);
     --backgroundBrightener: rgb(255, 255, 255, 0.03);
@@ -93,7 +102,7 @@ h2 {
 }
 
 #flexLegende {
-    flex: 0 0 355px;
+    flex: 0 0 365px;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
@@ -209,14 +218,22 @@ input {
     padding: 5px 0px;
 }
 
-.hLegende>a {
-    color: var(--highlightColor);
-    font-weight: bold;
+.legendeAnchor {
     text-decoration: none;
+    color: none;
+    color: var(--bright-color);
 }
 
-.hLegende>a:hover {
-    color: var(--bright-color);
+.legendeAnchor:hover {
+    font-weight: bold;
+}
+
+.legendeAnchor:hover .hLegende {
+    color: var(--highlightColor);
+}
+
+.hLegende {
+    color: var(--highlightColor);
 }
 
 /* LOGO */
@@ -290,8 +307,8 @@ input {
 .resultDiv,
 .resultDivText {
     position: relative;
-    width: 18.5%;
-    height: 30.33%;
+    width: var(--widthDesktop);
+    height: var(--heightDesktop);
     border-radius: 0.2vmin;
     background-color: rgb(100, 100, 100);
     box-shadow: 0px 1vmin 1vmin rgba(0, 0, 0, 0.4);
@@ -433,20 +450,20 @@ input {
 
     .resultDiv,
     .resultDivText {
-        width: 23%;
-        height: 23%;
+        width: var(--widthTablet);
+        height: var(--heightTablet);
     }
 }
 
-@media all and (max-width: 500px) {
+@media all and (max-width: 800px) {
     #flexReturn {
         display: none;
     }
 
     .resultDiv,
     .resultDivText {
-        width: 30.33%;
-        height: 18.5%;
+        width: var(--widthMobile);
+        height: var(--heightMobile);
     }
 
     #flexSearch {
@@ -472,18 +489,6 @@ input {
 
     #footer {
         height: 30px;
-    }
-}
-
-@media all and (max-width: 250px) {
-
-    .resultDiv,
-    .resultDivText {
-        width: 47%;
-        height: 10.5%;
-    }
-
-    #footer {
         justify-content: center;
     }
 
@@ -491,5 +496,14 @@ input {
     .footerText {
         padding: 0px 3vw;
         font-size: 4vw;
+    }
+}
+
+@media all and (max-width: 250px) {
+
+    .resultDiv,
+    .resultDivText {
+        width: var(--widthMini);
+        height: var(--heightMini);
     }
 }
