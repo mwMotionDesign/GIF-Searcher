@@ -144,24 +144,31 @@ let imageContain = false;
 let newSiteLoad = false;
 
 function switchImages() {
-    if (!imageContain || newSiteLoad) {
-        const imgContain = document.querySelectorAll(".resultIMGhidden");
-        const imgCover = document.querySelectorAll(".resultIMG");
+    const imgContain = document.querySelectorAll(".resultIMGhidden");
+    const imgCover = document.querySelectorAll(".resultIMG");
 
+    if (!imageContain || newSiteLoad) {
         imgContain.forEach(el => {
             el.style.opacity = 1;
             el.style.transform = "translate(-0%, -101.5%) scale(1)";
         });
         imgCover.forEach(el => {
             el.style.opacity = 0.75;
-            el.style.filter = "brightness(0.0) blur(0px)";
+            el.style.filter = "brightness(0.0)";
         });
 
         imageContain = true;
         console.log("Image is switched to contain\n\n")
     }
     else if (imageContain) {
-        appendGIFsToSite(responseJSON.data.data);
+        imgContain.forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = "translate(-0%, -101.5%) scale(1.2)";
+        });
+        imgCover.forEach(el => {
+            el.style.opacity = 1;
+            el.style.filter = "brightness(1)";
+        });
 
         imageContain = false;
         console.log("Image is switched back to cover\n\n")
