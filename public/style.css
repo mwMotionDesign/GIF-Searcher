@@ -214,27 +214,37 @@ input {
     background-color: var(--debugColor);
 }
 
-#legende>p {
+#legendeHeader {
     padding: 5px 0px;
 }
 
 .legendeAnchor {
     text-decoration: none;
-    color: none;
     color: var(--bright-color);
+    padding: 5px 0px;
 }
 
-.legendeAnchor:hover {
-    font-weight: bold;
-}
-
-.legendeAnchor:hover .hLegende {
-    color: var(--highlightColor);
+#legende:hover .legendeAnchor:not(:hover) {
+    /* color: var(--logText); */
+    opacity: 0.7;
 }
 
 .hLegende {
+    font-weight: bolder;
     color: var(--highlightColor);
 }
+
+/* #legende:hover .legendeAnchor:hover {
+    color: var(--logText);
+} */
+
+/* #legende:hover .legendeAnchor:hover p .hLegende {
+    color: var(--bright-color);
+} */
+
+/* #legende:hover .legendeAnchor:not(:hover) p .hLegende {
+    color: var(--bright-color);
+} */
 
 /* LOGO */
 

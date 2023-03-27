@@ -109,25 +109,23 @@ legendeChangeGifAmount.addEventListener("click", (e) => {
     inputField.select();
 });
 
-document.addEventListener("keypress", (event) => {
-    if (event.key === ";") {
-        event.preventDefault();
-        changeNumberOfGifs();
-        inputField.focus();
-        inputField.select();
-    }
-    if (event.key === ":") {
-        event.preventDefault();
-        generateRandomWord();
-    }
-    if (event.key === "_") {
-        event.preventDefault();
-        switchImages();
-    }
+document.addEventListener("keydown", (event) => {
     if (event.shiftKey) {
         if (event.key === "Enter") {
             event.preventDefault();
+            generateRandomWord();
+        }
+    }
+    else if (event.ctrlKey) {
+        if (event.key === "Enter") {
+            event.preventDefault();
             generateAIresponse();
+        }
+        else if (event.key === "Backspace") {
+            event.preventDefault();
+            changeNumberOfGifs();
+            inputField.focus();
+            inputField.select();
         }
         else if (event.key === "+") {
             event.preventDefault();
@@ -137,6 +135,10 @@ document.addEventListener("keypress", (event) => {
     else if (event.key === "Enter") {
         event.preventDefault();
         searchForGif();
+    }
+    else if (event.key === "Tab") {
+        event.preventDefault();
+        switchImages();
     }
 });
 
@@ -449,8 +451,8 @@ async function generateAIresponse() {
             body: JSON.stringify(data)
         };
 
-        // const responseAI = await fetch("/postAIrequest", options);       // Davinci 003
-        const responseAI = await fetch("/postAIrequestTurbo", options);     // GPT 3.5 Turbo
+        const responseAI = await fetch("/postAIrequest", options);              // Davinci 003
+        // const responseAI = await fetch("/postAIrequestTurbo", options);      // GPT 3.5 Turbo
         const jsonAI = await responseAI.json();
         console.log("AI Response:");
         console.log(jsonAI);
