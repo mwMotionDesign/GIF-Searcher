@@ -1,5 +1,5 @@
-// console.clear();
-console.log = function () { }
+console.clear();
+// console.log = function () { }
 
 // Geo Loctaion Check
 // getGeoLocation();
@@ -99,14 +99,12 @@ legendeAskAI.addEventListener("click", (e) => {
 legendeSwitchImages.addEventListener("click", (e) => {
     e.preventDefault;
     switchImages();
-    inputField.focus();
-    inputField.select();
+    focusInputField();
 });
 legendeChangeGifAmount.addEventListener("click", (e) => {
     e.preventDefault;
     changeNumberOfGifs();
-    inputField.focus();
-    inputField.select();
+    focusInputField();
 });
 
 document.addEventListener("keydown", (event) => {
@@ -127,8 +125,7 @@ document.addEventListener("keydown", (event) => {
         else if (event.key === "Backspace") {
             event.preventDefault();
             changeNumberOfGifs();
-            inputField.focus();
-            inputField.select();
+            focusInputField();
         }
         else if (event.key === "+") {
             event.preventDefault();
@@ -149,6 +146,17 @@ document.addEventListener("keydown", (event) => {
 
 let imageContain = false;
 let newSiteLoad = false;
+
+function focusInputField() {
+    if (/Android|iPhone/i.test(navigator.userAgent)) {
+        console.log("Mobile Device detected: No Focus")
+        console.log("")
+    }
+    else {
+        inputField.focus();
+        inputField.select();
+    }
+}
 
 function switchImages() {
     const imgContain = document.querySelectorAll(".resultIMGhidden");
@@ -196,8 +204,7 @@ async function generateRandomWord() {
 
         searchForGif();
 
-        inputField.focus();
-        inputField.select();
+        focusInputField();
     } catch (error) {
         console.log("WORD-GENERATOR RESPONSE ERROR:");
         console.error(error);
@@ -415,8 +422,7 @@ function appendGIFsToSite(gifData) {
 
         newSiteLoad = false;
 
-        inputField.focus();
-        inputField.select();
+        focusInputField();
     }
 }
 
@@ -472,8 +478,7 @@ async function generateAIresponse() {
 
         searchForGif();
 
-        inputField.focus();
-        inputField.select();
+        focusInputField();
     } catch (error) {
         console.log("AI RESPONSE ERROR:");
         console.error(error);
@@ -510,8 +515,7 @@ function linkToInput(event) {
 
     if (inputField.value != event.target.textContent) {
         inputField.value = event.target.textContent;
-        inputField.focus();
-        inputField.select();
+        focusInputField();
 
         console.log("\nSetting history Event: " + event.target.textContent + "\n");
 
