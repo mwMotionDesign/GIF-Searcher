@@ -110,20 +110,19 @@ legendeChangeGifAmount.addEventListener("click", (e) => {
 });
 
 document.addEventListener("keydown", (event) => {
-    if (event.shiftKey) {
+    if (event.shiftKey && !event.ctrlKey) {
         if (event.key === "Enter") {
-            event.preventDefault();
-            generateRandomWord();
-        }
-        else if (event.key === "Backspace") {
             event.preventDefault();
             switchImages();
         }
+        else if (event.key === "Backspace") {
+            event.preventDefault();
+        }
     }
-    else if (event.ctrlKey) {
+    else if (event.ctrlKey && !event.shiftKey) {
         if (event.key === "Enter") {
             event.preventDefault();
-            generateAIresponse();
+            generateRandomWord();
         }
         else if (event.key === "Backspace") {
             event.preventDefault();
@@ -134,6 +133,12 @@ document.addEventListener("keydown", (event) => {
         else if (event.key === "+") {
             event.preventDefault();
             getAImodels();
+        }
+    }
+    else if (event.ctrlKey && event.shiftKey) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            generateAIresponse();
         }
     }
     else if (event.key === "Enter") {
