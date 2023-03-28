@@ -1,5 +1,5 @@
-console.clear();
-// console.log = function () { }
+// console.clear();
+console.log = function () { }
 
 // Geo Loctaion Check
 // getGeoLocation();
