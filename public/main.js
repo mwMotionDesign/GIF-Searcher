@@ -147,12 +147,18 @@ document.addEventListener("keydown", (event) => {
 let imageContain = false;
 let newSiteLoad = false;
 
+function isMobile() {
+    return /Android|iPhone/i.test(navigator.userAgent)
+}
+
 function focusInputField() {
-    if (/Android|iPhone/i.test(navigator.userAgent)) {
+    if (isMobile()) {
         console.log("Mobile Device detected: No Focus")
         console.log("")
     }
     else {
+        console.log("Desktop Device detected: Focus")
+        console.log("")
         inputField.focus();
         inputField.select();
     }
@@ -385,11 +391,19 @@ function appendGIFsToSite(gifData) {
             newCopy.textContent = 'COPY';
             newCopy.addEventListener("click", copyLinkToClipboard);
 
-            newA.appendChild(newIMG);
-            newA.appendChild(newIMGhidden);
-            newDiv.appendChild(newA);
-            newDiv.appendChild(newCopy);
-            result.appendChild(newDiv);
+            if (!isMobile()) {
+                newA.appendChild(newIMG);
+                newA.appendChild(newIMGhidden);
+                newDiv.appendChild(newA);
+                newDiv.appendChild(newCopy);
+                result.appendChild(newDiv);
+            }
+            else {
+                newDiv.appendChild(newIMG);
+                newDiv.appendChild(newIMGhidden);
+                newDiv.appendChild(newCopy);
+                result.appendChild(newDiv);
+            }
 
             if (i == endGIF) {
                 allImagesFound = endGIF + 1;
