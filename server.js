@@ -110,28 +110,40 @@ const openAI = new OpenAIApi(aiConfiguration);
 app.post("/postAIrequest", async (request, response) => {
     const data = request.body;
     let newPrompt = "";
+    let aiPrompt = {};
+
     if (data.prompt != "") {
-        // newPrompt = "Summarize the following sentence in a maximum of two words: ".concat(data.prompt);
         newPrompt = "Answer with maximum of two words: ".concat(data.prompt);
+
+        aiPrompt = {
+            model: "text-davinci-003",
+            prompt: newPrompt,
+            max_tokens: 20,
+            temperature: 0.4,
+            top_p: 1,
+            presence_penalty: 2,
+            frequency_penalty: 2
+        }
     }
     else if (data.prompt == "") {
-        newPrompt = "Generate an interesting word for a GIF search:";
+        newPrompt = "Generate an interesting word for a GIF search. SEED(" + getRandomInt(1111, 9999) + "):";
+
+        aiPrompt = {
+            model: "text-davinci-003",
+            prompt: newPrompt,
+            max_tokens: 20,
+            temperature: 0.95,
+            top_p: 1,
+            presence_penalty: 2,
+            frequency_penalty: 2
+        }
     }
+
     console.log("Request AI Response for:");
     console.log(data.prompt);
     console.log("Changed to:");
     console.log(newPrompt);
     console.log("");
-
-    const aiPrompt = {
-        model: "text-davinci-003",
-        prompt: newPrompt,
-        max_tokens: 20,
-        temperature: 0.4,
-        top_p: 1,
-        presence_penalty: 2,
-        frequency_penalty: 2
-    }
 
     console.log("AI Parameters: ");
     console.log(aiPrompt);
@@ -176,35 +188,56 @@ app.post("/postAIrequest", async (request, response) => {
 app.post("/postAIrequestTurbo", async (request, response) => {
     const data = request.body;
     let newPrompt = "";
+    let aiPrompt = {};
+
     if (data.prompt != "") {
         newPrompt = "".concat(data.prompt);
+
+        aiPrompt = {
+            model: "gpt-3.5-turbo",
+            messages: [
+                {
+                    role: 'system',
+                    content: 'Assistant who never uses more than two words for his response.',
+                },
+                {
+                    role: "user",
+                    content: newPrompt
+                }],
+            max_tokens: 20,
+            temperature: 0.4,
+            top_p: 1,
+            presence_penalty: 2,
+            frequency_penalty: 2
+        }
     }
     else if (data.prompt == "") {
-        newPrompt = "Generate an interesting word for a GIF search:";
+        newPrompt = "Generate an interesting word for a GIF search. SEED(" + getRandomInt(1111, 9999) + "):";
+
+        aiPrompt = {
+            model: "gpt-3.5-turbo",
+            messages: [
+                {
+                    role: 'system',
+                    content: 'Assistant who never uses more than two words for his response.',
+                },
+                {
+                    role: "user",
+                    content: newPrompt
+                }],
+            max_tokens: 20,
+            temperature: 0.95,
+            top_p: 1,
+            presence_penalty: 2,
+            frequency_penalty: 2
+        }
     }
+
     console.log("Request AI Response for:");
     console.log(data.prompt);
     console.log("Changed to:");
     console.log(newPrompt);
     console.log("");
-
-    const aiPrompt = {
-        model: "gpt-3.5-turbo",
-        messages: [
-            {
-                role: 'system',
-                content: 'Assistant who never uses more than two words for his response.',
-            },
-            {
-                role: "user",
-                content: newPrompt
-            }],
-        max_tokens: 20,
-        temperature: 0.4,
-        top_p: 1,
-        presence_penalty: 2,
-        frequency_penalty: 2
-    }
 
     console.log("AI Parameters: ");
     console.log(aiPrompt);
@@ -231,7 +264,6 @@ app.post("/postAIrequestTurbo", async (request, response) => {
         // db.loadDatabase();
         // const time = Date.now();
         // db.insert({ log: "Requesting AI", Search: data.prompt, aiResponse: aiResponseAnswer.text, time: time });
-
 
         response.json({
             status: "200 - Succesful PostRequest",
@@ -277,3 +309,11 @@ app.get("/getAImodels", async (request, response) => {
         response.end();
     }
 });
+
+// FUNCTIONS
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+}
