@@ -105,7 +105,7 @@ h2 {
 
 #flexSearch {
     flex: 10 0 400px;
-    max-width: 50%;
+    max-width: 1000px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -213,7 +213,7 @@ input {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    margin-top: 5%;
+    margin: 20px 0% 0% 5%;
     background-color: var(--debugColor);
 }
 
