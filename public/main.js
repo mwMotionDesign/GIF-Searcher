@@ -155,6 +155,8 @@ function focusInputField() {
     if (isMobile()) {
         console.log("Mobile Device detected: No Focus")
         console.log("")
+
+        inputField.blur();
     }
     else {
         console.log("Desktop Device detected: Focus")
