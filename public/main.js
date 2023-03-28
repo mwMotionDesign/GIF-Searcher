@@ -445,6 +445,10 @@ function appendGIFsToSite(gifData) {
 function copyLinkToClipboard() {
     let copyURL = this.previousSibling.href;
 
+    if (isMobile()) {
+        copyURL = this.previousSibling.src;
+    }
+
     // from:
     // https://media4.giphy.com/media/l0MYGb1LuZ3n7dRnO/100.gif?cid=d15746c13ca0f9b9c3sz9wme7gs3pllccath7etn352bmqce&rid=100.gif&ct=g
     // to:
